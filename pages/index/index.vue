@@ -1,9 +1,9 @@
 <template>
 	<view class="container">
-		<button class="cu-btn margin-bottom-20" type="default" :disabled="isSearch" @tap="initBluetooth">搜索蓝牙</button>
-		<button class="cu-btn margin-bottom-20" type="default" @tap="handleClose">关闭搜索</button>
-		<button class="cu-btn margin-bottom-20" type="default" @tap="handlePrint">测试快递单</button>
-		<button class="cu-btn margin-bottom-20" type="default" @tap="handlePrint1">测试收货单</button>
+		<button class="cu-btn" type="default" :disabled="isSearch" @tap="initBluetooth">搜索蓝牙</button>
+		<button class="cu-btn" type="default" @tap="handleClose">关闭搜索</button>
+		<button class="cu-btn" type="default" @tap="handlePrint">测试快递单</button>
+		<button class="cu-btn" type="default" @tap="handlePrint1">测试收货单</button>
 
 		<view class="flex align-center justify-between text-bold font-30 margin-tb-30">
 			<text class="">蓝牙列表</text>
@@ -13,7 +13,7 @@
 			</view>
 		</view>
 		<view class="flex flex-direction">
-			<view class="flex align-center justify-between margin-bottom-20 solid-4 padding-10 radius-8 animation-slide-left" v-for="(item, index) in list" :key="index">
+			<view class="item-wrap animation-slide-left" v-for="(item, index) in list" :key="index">
 				<view class="flex flex-direction">
 					<text class="">名称: {{ item.name }}</text>
 					<text class="">备注名: {{ item.nickName }}</text>
@@ -129,7 +129,19 @@ export default {
 		height: 80rpx;
 		color: #ffffff;
 		font-size: 30rpx;
+		margin-bottom: 20rpx;
 		background-color: #06d078;
+	}
+	.item-wrap{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		color: #06d078;
+		padding: 10rpx;
+		margin-bottom: 20rpx;
+		border-radius: 8rpx;
+		border: 4rpx solid #C8C7CC;
+		
 	}
 	.connect-button {
 		height: 60rpx;
