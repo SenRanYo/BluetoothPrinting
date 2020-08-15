@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarBackgroundColor": "#06D078",
+    "navigationBarTitleText": "移动端基础框架",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#06D078",
+    "backgroundTextStyle": "light",
+    "backgroundColorTop": "#06D078",
+    "backgroundColorBottom": "#06D078"
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap71.json"
+}

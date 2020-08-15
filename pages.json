@@ -1,0 +1,55 @@
+{
+	"condition": { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [{
+			"name": "开发环境", //模式名称
+			"path": "pages/index/index", //启动页面，必选
+			"query": "" //启动参数，在页面的onLoad函数里面得到
+		}]
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "蓝牙打印Demo"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarBackgroundColor": "#06D078",
+		"navigationBarTitleText": "移动端基础框架", // 全局头部导航标题
+		// "navigationStyle": "default", // 全局头部导航样式
+		"navigationBarTextStyle": "white",
+		"backgroundColor": "#06D078", // 小程序 下拉显示出来的窗口的背景色
+		"backgroundTextStyle": "light", // 小程序 下拉 loading 的样式，仅支持 dark / light
+		"backgroundColorTop": "#06D078", // ios 顶部窗口的背景色（bounce回弹区域）
+		"backgroundColorBottom": "#06D078", // ios 底部窗口的背景色（bounce回弹区域）
+		"app-plus": {
+			"softinputMode": "adjustPan", // 软键盘弹出模式，支持 adjustResize、adjustPan 两种模式
+			// "scrollIndicator":"none", // 滚动条显示策略，设置为 "none" 时不显示滚动。
+			// "bounce":"none", // 页面回弹效果，设置为 "none" 时关闭效果
+			"pullToRefresh": { // App 自定义部分下拉刷新配置
+				"color": "#06D078", // 颜色值格式为"#RRGGBB"，仅"circle"样式下拉刷新支持此属性。
+				"style": "circle", // 可取值："default"——经典下拉刷新样式（下拉拖动时页面内容跟随）；"circle"——圆圈样式下拉刷新控件样式（下拉拖动时仅刷新控件跟随）
+				"offset": "0px" // 下拉刷新控件的起始位置。仅对"circle"样式下拉刷新控件有效
+			},
+			"titleNView": { //原生导航栏配置参数
+				"backButton": { // 返回按钮样式
+					"color": "#ffffff", // 图标和标题颜色
+					// "colorPressed": "#ffffff", // 按下图标和标题颜色
+					"fontWeight": "normal", // 返回图标的粗细 值["normal","bold"]
+					"title": "返回", // 返回按钮右边文字
+					"titleWeight": "normal", // 返回按钮上标题的粗细 值["normal","bold"]
+					"titleSize": "16px", // 返回按钮右边文字大小只能px
+					"redDot": false // 是否显示红点
+				}
+			},
+			"safearea": { // 关闭IPhone X底部安全区域
+				"bottom": {
+					"offset": "none"
+				}
+			}
+		}
+	}
+
+}
