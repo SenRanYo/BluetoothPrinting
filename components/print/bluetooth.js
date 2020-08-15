@@ -275,8 +275,25 @@ class Bluetooth {
 		})
 	};
 
+	// 关闭蓝牙
+	close() {
+		uni.closeBluetoothAdapter({
+			success: (res) => {
+				uni.showToast({
+					icon:'none',
+					title:'蓝牙已关闭'
+				})
+			},
+			fail: (err) => {
+				if (err.errCode == 0) return;
+				this.handleError(err.errCode)
+			}
+		})
+	};
+
 	// 处理蓝牙错误代码
 	handleError(code, errMsg = '未知错误') {
+		uni.hideLoading()
 		switch (code) {
 			case 10000:
 				this.toast('未初始化蓝牙适配器')

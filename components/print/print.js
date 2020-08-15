@@ -1,5 +1,16 @@
 var encode = require("./encoding.js");
 
+class Printer {
+	constructor() {
+
+	}
+	
+}
+// 获取文本长度区分中英文
+function strSize(str) {
+	return str.replace(/[\u0391-\uFFE5]/g, "aa").length
+}
+
 var printer = {
 	createNew: function() {
 		var data = "";
@@ -14,13 +25,12 @@ var printer = {
 				command.push(code[i])
 			};
 		};
-		
-		// 
+
 		// 打印文本
 		printer.text = function() {
 			printer.addCommand('! 0 200 200 10 1')
 		};
-		
+
 		printer.back = function() {
 			printer.addCommand('! 0 200 200 10 1') //标签面积
 			printer.addCommand('POSTFEED 999999999') //标签面积
@@ -63,17 +73,17 @@ var printer = {
 			printer.addCommand('TEXT 24 1 80 400 件数：10    重量：20.00    体积：20.00')
 			printer.addCommand('TEXT 24 1 80 435 到付：20.00')
 			printer.addCommand('LINE 0 490 575 490 2')
-			
+
 			// 选择项
 			printer.addCommand('TEXT 24 1 20 510 √配送上楼  √特殊入仓')
 			printer.addCommand('TEXT 24 1 20 545 √签收单返还')
 			printer.addCommand('TEXT 24 1 20 575 √货物价值声明：5000元')
 			printer.addCommand('LINE 300 490 300 620 2')
-			
+
 			// 签名
 			printer.addCommand('TEXT 24 1 320 510 签名：')
 			printer.addCommand('LINE 0 620 575 620 2')
-			
+
 			// 客服电话
 			printer.addCommand('TEXT 24 1 10 630 客服电话：4000913313')
 			printer.addCommand('LINE 270 620 270 770 2')
@@ -86,12 +96,12 @@ var printer = {
 			printer.addCommand('TEXT 55 1 125 660 扫描左侧的小程序')
 			printer.addCommand('TEXT 55 1 125 690 二维码登陆亿都出')
 			printer.addCommand('TEXT 55 1 125 720 行进行快递寄件')
-			
+
 			// 条码
 			printer.addCommand('BARCODE-TEXT 24 0 5')
 			printer.addCommand('BARCODE 93 1 1 80 285 600 123456789-1')
 			printer.addCommand('BARCODE-TEXT OFF')
-			
+
 			printer.addCommand('FORM')
 			printer.addCommand('PRINT')
 		};

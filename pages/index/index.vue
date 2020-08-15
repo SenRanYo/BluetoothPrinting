@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<button class="cu-btn margin-bottom-20" type="default" :disabled="isSearch" @tap="initBluetooth">搜索蓝牙</button>
-		<button class="cu-btn margin-bottom-20" type="default">关闭搜索</button>
+		<button class="cu-btn margin-bottom-20" type="default" @tap="handleClose">关闭搜索</button>
 		<button class="cu-btn margin-bottom-20" type="default" @tap="handleTest">测试打印</button>
 
 		<view class="flex align-center justify-between text-bold font-30 margin-tb-30">
@@ -84,6 +84,12 @@ export default {
 				// console.log(this.ble.services);
 				// console.log(this.ble.characteristicId);
 			})
+		},
+		// 关闭蓝牙
+		handleClose(){
+			this.ble.close()
+			this.isSearch = false;
+			this.statusText = '';
 		},
 		handleTest() {
 			//标签模式
