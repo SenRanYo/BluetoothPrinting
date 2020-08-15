@@ -2,7 +2,8 @@
 	<view class="container">
 		<button class="cu-btn margin-bottom-20" type="default" :disabled="isSearch" @tap="initBluetooth">搜索蓝牙</button>
 		<button class="cu-btn margin-bottom-20" type="default" @tap="handleClose">关闭搜索</button>
-		<button class="cu-btn margin-bottom-20" type="default" @tap="handleTest">测试打印</button>
+		<button class="cu-btn margin-bottom-20" type="default" @tap="handlePrint">测试快递单</button>
+		<button class="cu-btn margin-bottom-20" type="default" @tap="handlePrint1">测试收货单</button>
 
 		<view class="flex align-center justify-between text-bold font-30 margin-tb-30">
 			<text class="">蓝牙列表</text>
@@ -67,8 +68,8 @@ export default {
 	methods: {
 		initBluetooth() {
 			this.ble.init(res => {
-				this.isSearch = true;
-				this.statusText = '正在搜索';
+				this.isSearch = true
+				this.statusText = '正在搜索'
 				this.ble.onSearch(list => {
 					this.list = list
 				})
@@ -76,8 +77,8 @@ export default {
 		},
 		connectBluetooth(item) {
 			this.ble.connecte(item.deviceId, res => {
-				this.isSearch = false;
-				this.statusText = '已连接';
+				this.isSearch = false
+				this.statusText = '已连接'
 				// console.log(this.ble.deviceId);
 				// console.log(this.ble.lastDeviceId);
 				// console.log(this.ble.serviceId);
@@ -86,28 +87,35 @@ export default {
 			})
 		},
 		// 关闭蓝牙
-		handleClose(){
+		handleClose() {
 			this.ble.close()
-			this.isSearch = false;
-			this.statusText = '';
+			this.isSearch = false
+			this.statusText = ''
 		},
-		handleTest() {
-			//标签模式
+		handlePrint() {
+			uni.showToast({
+				icon: 'loading',
+				title: '正在打印',
+				mask: true
+			})
 			var command = print.printer.createNew()
 			command.receive()
-			this.senBlData(this.ble.deviceId, this.ble.serviceId, this.ble.characteristicId, command.getData())
-			
-		},
-		senBlData(deviceId, serviceId, characteristicId, uint8Array) {
-			uni.showToast({
-				icon:'loading',
-				title:'正在打印',
-				mask:true
-			})
-			
-			this.ble.print(uint8Array,res => {
+			this.ble.print(command.getData(), res => {
 				uni.hideLoading()
-				console.log('打印完毕');
+				console.log('打印完毕')
+			})
+		},
+		handlePrint1() {
+			uni.showToast({
+				icon: 'loading',
+				title: '正在打印',
+				mask: true
+			})
+			var command = print.printer.createNew()
+			command.goods1()
+			this.ble.print(command.getData(), res => {
+				uni.hideLoading()
+				console.log('打印完毕')
 			})
 		},
 	}

@@ -1,14 +1,21 @@
+import utils from './time.js'
 var encode = require("./encoding.js");
 
-class Printer {
-	constructor() {
-
-	}
-	
-}
 // 获取文本长度区分中英文
 function strSize(str) {
 	return str.replace(/[\u0391-\uFFE5]/g, "aa").length
+}
+
+function splitStr(str, length = 10) {
+	if(str.length < length) return str;
+	let strArr = [];
+	let index = length;
+	let strLength = str.length;
+	let strArrLength = strLength / length;
+	for (let i = 0; i < strArrLength; i++) {
+		strArr.push(str.substring(i * length,(i + 1) * length))
+	}
+	return strArr;
 }
 
 var printer = {
@@ -26,35 +33,26 @@ var printer = {
 			};
 		};
 
-		// 打印文本
-		printer.text = function() {
-			printer.addCommand('! 0 200 200 10 1')
-		};
-
-		printer.back = function() {
-			printer.addCommand('! 0 200 200 10 1') //标签面积
-			printer.addCommand('POSTFEED 999999999') //标签面积
-			printer.addCommand('FORM')
-			printer.addCommand('PRINT')
-		};
-
 		printer.receive = function() { //测试模板1
 			printer.addCommand('! 0 200 200 800 1') //标签面积
-			printer.addCommand('TEXT 24 1 220 25         yyyy/mm/dd hh:MM:ss')
+			// printer.addCommand(`TEXT 24 1 220 25         ${}`)
+			printer.addCommand('TEXT 24 1 340 22 ' + utils.timeFormat(new Date, 'yyyy/mm/dd hh:MM:ss'))
 			printer.addCommand('SETBOLD 1')
-			printer.addCommand('TEXT 24 3,1 0 70 如影随行')
+			printer.addCommand('TEXT 24 3,1 0 60 如影随行')
 			printer.addCommand('SETBOLD 0')
-			printer.addCommand('TEXT 24 1 450 65 普货包裹')
+			printer.addCommand('TEXT 24 1 475 60 普货包裹')
 			printer.addCommand('LINE 0 100 575 100 2')
-			printer.addCommand('BOX 0 100 575 770 2')
+			printer.addCommand('BOX 0 100 575 760 2')
 			// 寄件人
 			printer.addCommand('TEXT 24 1 20 120 寄')
 			printer.addCommand('TEXT 24 1 20 150 件')
 			printer.addCommand('TEXT 24 1 20 180 人')
 			printer.addCommand('TEXT 24 1 80 120 珂攀     18000000000')
-			printer.addCommand('TEXT 24 1 80 150 福建省福州市台江区义务街道福建省福州市台')
-			printer.addCommand('TEXT 24 1 80 180 江区义务街道550号万科')
-			printer.addCommand('LINE 60 100 60 490 2')
+			let textArr = splitStr('福建省福州市台江区义务街道福建省福州市台福建省福州市台江区义务街道福建省福州市台',20);
+			textArr.forEach((item,index) => {
+				printer.addCommand(`TEXT 24 1 80 ${150 + index * 30} ${item}`)
+			})
+			printer.addCommand('LINE 60 100 60 490 1')
 			printer.addCommand('LINE 0 220 575 220 2')
 			// 收件人
 			printer.addCommand('TEXT 24 1 20 240 收')
@@ -75,31 +73,31 @@ var printer = {
 			printer.addCommand('LINE 0 490 575 490 2')
 
 			// 选择项
-			printer.addCommand('TEXT 24 1 20 510 √配送上楼  √特殊入仓')
-			printer.addCommand('TEXT 24 1 20 545 √签收单返还')
-			printer.addCommand('TEXT 24 1 20 575 √货物价值声明：5000元')
-			printer.addCommand('LINE 300 490 300 620 2')
+			printer.addCommand('TEXT 24 1 20 500 √配送上楼  √特殊入仓')
+			printer.addCommand('TEXT 24 1 20 535 √签收单返还')
+			printer.addCommand('TEXT 24 1 20 570 √货物价值声明：5000元')
+			printer.addCommand('LINE 300 490 300 610 1')
 
 			// 签名
-			printer.addCommand('TEXT 24 1 320 510 签名：')
-			printer.addCommand('LINE 0 620 575 620 2')
+			printer.addCommand('TEXT 24 1 320 500 签名：')
+			printer.addCommand('LINE 0 610 575 610 2')
 
 			// 客服电话
-			printer.addCommand('TEXT 24 1 10 630 客服电话：4000913313')
-			printer.addCommand('LINE 270 620 270 770 2')
+			printer.addCommand('TEXT 24 1 10 625 客服电话：4000913313')
+			printer.addCommand('LINE 270 610 270 760 1')
 			printer.addCommand('LINE 0 660 270 660 2')
 			// // 二维码
-			printer.addCommand('B QR 0 690 M 2 U 4')
+			printer.addCommand('B QR 0 670 M 2 U 4')
 			printer.addCommand('MA,QR code ABC123')
 			printer.addCommand('ENDQR')
 			// 二维码提示信息
-			printer.addCommand('TEXT 55 1 125 660 扫描左侧的小程序')
-			printer.addCommand('TEXT 55 1 125 690 二维码登陆亿都出')
-			printer.addCommand('TEXT 55 1 125 720 行进行快递寄件')
+			printer.addCommand('TEXT 55 1 125 670 扫描左侧的小程序')
+			printer.addCommand('TEXT 55 1 125 700 二维码登陆亿都出')
+			printer.addCommand('TEXT 55 1 125 730 行进行快递寄件')
 
 			// 条码
 			printer.addCommand('BARCODE-TEXT 24 0 5')
-			printer.addCommand('BARCODE 93 1 1 80 285 600 123456789-1')
+			printer.addCommand('BARCODE 93 1 1 80 285 635 123456789-1')
 			printer.addCommand('BARCODE-TEXT OFF')
 
 			printer.addCommand('FORM')
@@ -108,7 +106,7 @@ var printer = {
 
 		printer.goods = function(data) { //测试模板1
 			printer.addCommand('! 0 200 200 780 1') //标签面积
-			printer.addCommand('TEXT 24 1 220 22 ' + utils.formatTime(new Date, 'yyyy/mm/dd hh:MM:ss') + '      1/3')
+			printer.addCommand('TEXT 24 1 220 22 ' + utils.timeFormat(new Date, 'yyyy/mm/dd hh:MM:ss') + '      1/3')
 			printer.addCommand('SETBOLD 1')
 			printer.addCommand('TEXT 24 3,1 0 65 如影随行')
 			printer.addCommand('SETBOLD 0')
@@ -188,6 +186,77 @@ var printer = {
 			printer.addCommand('PRINT')
 		};
 
+		printer.goods1 = function(data) { //测试模板1
+			printer.addCommand('! 0 200 200 780 1') //标签面积
+			printer.addCommand('TEXT 24 1 230 22 ' + utils.timeFormat(new Date, 'yyyy/mm/dd hh:MM:ss') + '      1/3')
+			printer.addCommand('SETBOLD 1')
+			printer.addCommand('TEXT 24 3,1 0 65 如影随行')
+			printer.addCommand('SETBOLD 0')
+			printer.addCommand('TEXT 24 1 450 65 行李箱包裹')
+			printer.addCommand('LINE 0 110 575 110 2')
+			printer.addCommand('BOX 0 110 575 760 2')
+			printer.addCommand('CENTER')
+			printer.addCommand('BARCODE-TEXT 24 0 5')
+			printer.addCommand('BARCODE 128 1 2 60 0 120 123456789-1')
+			printer.addCommand('BARCODE-TEXT OFF')
+			printer.addCommand('LEFT')
+			printer.addCommand('LINE 0 210 575 210 2')
+
+			printer.addCommand('SETBOLD 1')
+			printer.addCommand('BOX 20 220 70 270 2')
+			printer.addCommand('TEXT 24 3,1 20 230 集')
+			printer.addCommand('TEXT 24 1 90 230 福州市')
+			printer.addCommand('SETBOLD 0')
+
+			printer.addCommand('SETBOLD 1')
+			printer.addCommand('BOX 200 220 250 270 2')
+			printer.addCommand('TEXT 24 3,1 200 230 末')
+			printer.addCommand('TEXT 24 1 270 230 亿都镇')
+			printer.addCommand('SETBOLD 0')
+			printer.addCommand('LINE 0 280 575 280 2')
+
+			printer.addCommand('BOX 20 290 70 340 2')
+			printer.addCommand('SETBOLD 1')
+			printer.addCommand('TEXT 24 3,1 20 300 收')
+			printer.addCommand('TEXT 24 1 90 308 珂攀   18000000000')
+			printer.addCommand('SETBOLD 0')
+			let getAddress = splitStr('福建省福州市台江区义务街道550号万科金融小区街道550号万科金融小区',24);
+			getAddress.forEach((item,index) => {
+				printer.addCommand(`TEXT 24 1 20 ${353 + index * 30} ${item}`)
+			})
+			printer.addCommand('LINE 0 430 575 430 2')
+
+			printer.addCommand('BOX 20 440 70 490 2')
+			printer.addCommand('SETBOLD 1')
+			printer.addCommand('TEXT 24 3,1 20 450 寄')
+			printer.addCommand('TEXT 24 1 90 458 金地   18000000000')
+			printer.addCommand('SETBOLD 0')
+			let sendAddress = splitStr('福建省福州市台江区义务街道550号万科金融小区街道550号万科金融小区',24);
+			sendAddress.forEach((item,index) => {
+				printer.addCommand(`TEXT 24 1 20 ${503 + index * 30} ${item}`)
+			})
+			printer.addCommand('LINE 0 580 575 580 2')
+
+			printer.addCommand('TEXT 24 1 10 600 客服电话：4000913313')
+			printer.addCommand('LINE 0 640 270 640 2')
+			// 二维码
+			printer.addCommand('B QR 0 660 M 2 U 4')
+			printer.addCommand('MA,QR code ABC123')
+			printer.addCommand('ENDQR')
+
+			printer.addCommand('TEXT 55 1 125 660 扫描左侧的小程序')
+			printer.addCommand('TEXT 55 1 125 690 二维码登陆亿都出')
+			printer.addCommand('TEXT 55 1 125 720 行进行快递寄件')
+
+			printer.addCommand('LINE 270 580 270 760 2')
+
+			printer.addCommand('BARCODE-TEXT 24 0 5')
+			printer.addCommand('BARCODE 93 1 1 80 285 620 123456789-1')
+			printer.addCommand('BARCODE-TEXT OFF')
+
+			printer.addCommand('FORM')
+			printer.addCommand('PRINT')
+		};
 
 
 		printer.setSize = function(pageWidght, pageHeight) { //设置页面大小
