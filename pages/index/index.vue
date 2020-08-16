@@ -48,7 +48,7 @@ export default {
 		formatRSSI() {
 			return function(RSSI) {
 				RSSI = Math.abs(RSSI)
-				if (RSSI < 60) {
+				if (RSSI <= 60) {
 					return '极好'
 				} else if (RSSI > 60 && RSSI < 70) {
 					return '很好'
@@ -60,6 +60,8 @@ export default {
 					return '差'
 				} else if (RSSI > 100 && RSSI < 150) {
 					return '极差'
+				} else {
+					return '未知'
 				}
 			}
 		}
@@ -95,6 +97,7 @@ export default {
 			uni.showToast({
 				icon: 'loading',
 				title: '正在打印',
+				duration: 20000,
 				mask: true
 			})
 			var command = print.printer.createNew()
@@ -108,6 +111,7 @@ export default {
 			uni.showToast({
 				icon: 'loading',
 				title: '正在打印',
+				duration: 20000,
 				mask: true
 			})
 			var command = print.printer.createNew()
