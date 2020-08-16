@@ -180,9 +180,12 @@ class Bluetooth {
 	}
 
 	// 停止搜索蓝牙设备
-	stopDevicesDiscovery() {
+	stopDevicesDiscovery(callback) {
+		callback = callback || function() {};
 		uni.stopBluetoothDevicesDiscovery({
-			success: e => {},
+			success: e => {
+				callback()
+			},
 			fail: e => {
 				if (err.errCode == 0) return;
 				this.handleError(err.errCode)
@@ -203,6 +206,7 @@ class Bluetooth {
 					})
 					list.forEach(item => {
 						item.nickName = item.name
+						item.connect = false
 					})
 					this.services = list
 					callback(list);

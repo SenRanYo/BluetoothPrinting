@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
 import print from '../../components/print/print.js'
 import Bluetooth from '../../components/print/bluetooth.js'
 export default {
